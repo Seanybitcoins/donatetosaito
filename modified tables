@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Include Web3.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.0.0/dist/web3.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.0.0/dist/web3-provider.min.js"></script>
+
+  <!-- Include MetaMask wallet provider -->
+  <script src="https://cdn.jsdelivr.net/npm/@metamask/web3-provider@2.0.0/dist/web3-provider.min.js"></script>
+
+  <!-- Other style and script tags -->
+</head>
+<body style="background-image: url('theone/bg.png');">
+  <!-- other HTML content -->
+</body>
+
+  <video width="640" height="480" controls>
+    <source src="Saito-Master-220401-wVoicec.mp4" type="video/mp4">
+    <source src="path/to/your/video.ogg" type="video/ogg">
+    Your browser does not support the video tag.
+  </video>
+  <!-- Other HTML content -->
+
+  <button id="connect-wallet-button">Connect Wallet</button>
+
+  <div>
+    <button class="pay-button">Pay</button>
+    <div id="status"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    window.addEventListener('load', async () => {
+      if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        try {
+          await ethereum.enable();
+          initPayButton();
+        } catch (err) {
+          $('#status').html('User denied account access', err);
+        }
+      } else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+        initPayButton();
+      } else {
+        $('#status').html('No Metamask (or other Web3 Provider)
+        installed');
+      }
+    });
+
+    const initPayButton = () => {
+      $('.pay-button').click(() => {
+        // paymentAddress is where funds will be send to
+        const paymentAddress = '0x192c96bfee59158441f26101b2db1af3b07feb40';
+        const amountEth = 1;
+        web3.eth.sendTransaction(
+          {
+            to: paymentAddress,
+            value: web3.toWei(amountEth, 'ether'),
+          },
+          (err, transactionId) => {
+            if (err) {
+              console.log('Payment failed', err);
+              $('#status').html('Payment failed');
+            } else {
+              console.log('Payment successful', transactionId);
+              $('#status').html('Payment successful');
+            }
+          }
+        );
+      });
+    };
+  </script>
+
+  <script>
+    $('#connect-wallet-button').click(async () => {
+      // Check if Web3 has been injected by the browser:
+      if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        try {
+          // Request account access if needed
+          await ethereum.enable();
+          // Acccounts now exposed
+          web3.eth.sendTransaction({/* ... */});
+        } catch (error) {
+          // User denied account access...
+        }
+      }
+      // Legacy dapp browsers...
+      else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+        // Acccounts always exposed
+        web3.eth.sendTransaction({/* ... */});
+     
+      }
+      // Non-dapp browsers...
+      else {
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+      }
+    });
+  </script>
+
+</body>
+</html>
