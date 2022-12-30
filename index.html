@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<body>
+    <!-- Other HTML content -->
+  
+    <video width="640" height="480" controls>
+      <source src="Saito-Master-220401-wVoicec.mp4" type="video/mp4">
+      <source src="path/to/your/video.ogg" type="video/ogg">
+      Your browser does not support the video tag.
+    </video>
+  
+    <!-- Other HTML content -->
+  </body>
+  
+<html lang="en">
+    <html lang="en">
+        
+
+      <head>
+        <!-- Include Web3.js library -->
+        <script> src="https://cdn.jsdelivr.net/npm/web3@1.0.0/dist/web3.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.0.0/dist/web3-provider.min.js"></script>
+        
+        <!-- Include MetaMask wallet provider -->
+<script src="https://cdn.jsdelivr.net/npm/@metamask/web3-provider@2.0.0/dist/web3-provider.min.js"></script>
+<button id="connect-wallet-button">Connect Wallet</button>
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+<button class="pay-button">Pay</button>
+<div id="status"></div>
+</div>
+<script type="text/javascript">
+window.addEventListener('load', async () => {
+if (window.ethereum) {
+window.web3 = new Web3(ethereum);
+try {
+await ethereum.enable();
+initPayButton()
+} catch (err) {
+$('#status').html('User denied account access', err)
+}
+} else if (window.web3) {
+window.web3 = new Web3(web3.currentProvider)
+initPayButton()
+} else {
+$('#status').html('No Metamask (or other Web3 Provider) installed')
+}
+})
+const initPayButton = () => {
+$('.pay-button').click(() => {
+// paymentAddress is where funds will be send to
+const paymentAddress = '0x192c96bfee59158441f26101b2db1af3b07feb40'
+const amountEth = 1
+web3.eth.sendTransaction({
+to: paymentAddress,
+value: web3.toWei(amountEth, 'ether')
+}, (err, transactionId) => {
+if  (err) {
+console.log('Payment failed', err)
+$('#status').html('Payment failed')
+} else {
+console.log('Payment successful', transactionId)
+$('#status').html('Payment successful')
+}
+})
+})
+}
+</script>
+</body>
+</html>
+<script> document.getElementById('connect-wallet-button').addEventListener('click', function() {
+    // Check if Web3 is available
+    if (typeof web3 !== 'undefined') {
+      // Web3 is available, set the provider
+      web3 = new Web3(web3.currentProvider);
+  
+      // Check if the user is using Coinbase
+      if (web3.currentProvider.isCoinbase) {
+        // Connect to Coinbase wallet
+        web3.setProvider(new Web3WalletConnectProvider({
+          bridge: "https://bridge.walletconnect.org",
+          // Replace with your own Coinbase app ID
+          appId: "YOUR-COINBASE-APP-ID"
+        }));
+      }
+  
+      // Check if the user is using MetaMask
+      if (web3.currentProvider.isMetaMask) {
+        // Connect to MetaMask wallet
+        web3.setProvider(new Web3MetaMaskProvider());
+      }
+    } else {
+      // Web3 is not available, inform the user
+      alert("Please install a Web3-compatible wallet such as Coinbase or MetaMask to proceed.");
+    }
+  });
+  </script>
+        <!-- Add the donate function -->
+        
+        
+            });
+          }
+        </script>
+      </head>
+      <script>
+        function donate() {
+          // Retrieve the ERC20 address and amount to donate
+          var erc20Address = document.getElementById("erc20-address").value;
+          var amount = document.getElementById("amount").value;
+  
+          // Set the provider and contract address
+          web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/dda31a06d0584438ad97e3e6a7fbc436"));
+          var contractAddress = "0xYOUR-CONTRACT-ADDRESS";
+          if (typeof web3 !== 'undefined') {
+            // Web3 is available, set the provider
+            web3 = new Web3(web3.currentProvider);
+          } else {
+            // Web3 is not available, set the provider to Rinkeby test network
+            web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/dda31a06d0584438ad97e3e6a7fbc436"));
+          }
+          
+          // Set the ABI for the contract
+          var abi = [
+            {
+              "constant": false,
+              "inputs": [
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "name": "transfer",
+              "outputs": [
+                {
+                  "name": "success",
+                  "type": "bool"
+                }
+              ],
+              "payable": false,
+              "stateMutability": "nonpayable",
+              "type": "function"
+            }
+          ];
+          var contract = new web3.eth.Contract(abi, contractAddress);
+  
+          // Set the parameters for the transaction
+          var transactionParams = {
+            "from": web3.eth.accounts[0],
+            "to": erc20Address,
+            "value": web3.utils.toWei(amount, "ether")
+          };
+      <body>
+        <!-- Add a form to allow the user to enter their ERC20 address --><!DOCTYPE html>
+        
+<html lang="en">
+
+    <head>
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+    
+      <!-- Include Web3.js library -->
+      <script src="https://cdn.jsdelivr.net/npm/web3@1.0.0/dist/web3.min.js"></script>
+    </head>
+    
+    <body>
+        
+      <!-- Add a form to allow the user to enter their ERC20 address and amount to donate -->
+      <form>
+        <label for="erc20-address">Enter ERC20 Address:</label><br>
+        <input type="text" id="erc20-address" name="erc20-address"><br>
+        <label for="amount">Enter Amount to Donate:</label><br>
+        <input type="text" id="amount" name="amount"><br>
+        <input type="button" value="Donate" onclick="donate()">
+      </form>
+  
+      <!-- Add the donate function -->
+      
+  <!-- HTML for the modal window -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Welcome to the Saito Network donations website! Saito Network is a decentralized, open-source platform that allows for fast and secure transactions using a new cryptocurrency called Saito.</p>
+    <p>Saito is designed to be a scalable and efficient alternative to existing cryptocurrencies like Bitcoin and Ethereum, with a focus on privacy and security. By supporting the development of Saito Network, you can help to drive innovation in the world of cryptocurrency and contribute to the growth of a more decentralized and secure financial system.</p>
+    <p>Your donations will go directly towards supporting the development of Saito Network and its underlying technology, helping to ensure that the platform remains at the forefront of cryptocurrency innovation. We appreciate your support and believe that every contribution, no matter how small, can make a difference. Thank you for considering a donation to Saito Network.</p>
+  </div>
+</div>
+          //
+  
+        <form>
+          <label for="erc20-address">Enter ERC20 Address:</label><br>
+          <input type="text" id="erc20-address" name="erc20-address"><br>
+          <input type="button" value="Donate" onclick="donate()">
+        </form>
+      </body>
+    </html>
+    
+    }
+  });
+  
+</script>
+
+    <head>
+  
+             <table class="table">
+                    <tr>
+                      <th class="name" style="color: rgb(255, 255, 255);">Name</th>
+                      <th class="profile-picture" style="color: white;">Profile Picture</th>
+                      <th class="role" style="color: white;">Role</th>
+                      <th class="blockchain" style="color: white;">Blockchain</th>
+                      <th class="social-media" style="color: white;">Social Media</th>
+                      <th class="likes" style="color: white;">Likes</th>
+                      <th class="rating" style="color: white;">Rating</th>
+                      <th class="donate" style="color: white;">Donate</th>
+                    </tr>
+                    <!-- Add more rows for each developer -->
+
+
+                    table {
+                        <style>
+                            table {
+                              border-collapse: collapse;
+                              width: 89%;
+                              color: rgb(146, 10, 10);
+                            }
+                            
+                            th, td {
+                              text-align: left;
+                              padding: 2px;
+                            }
+                            
+                            tr:nth-child(even) {
+                              background-color: #f4efef;
+                            }
+                            
+                            td {
+                              background-color: #2cc218;
+                              color: rgb(247, 245, 245);
+                            }
+                            
+                            .name {
+                              width: 20%;
+                            }
+                            
+                            .profile-picture {
+                              width: 5;
+                            }
+                            
+                            .role {
+                              width: 10%;
+                            }
+                            
+                            .blockchain {
+                              width: 20%;
+                            }
+                            
+                            .social-media {
+                              width: 15%;
+                            }
+                            
+                            .likes {
+                              width: 10%;
+                            }
+                            
+                            .rating {
+                              width: 10%;
+                            }
+                            
+                            .donate {
+                              width: 10%;
+                            }
+                            
+                            /* Add a subtle shadow to a box when it's hovered over */
+                            .box:hover {
+                              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                            }
+                            
+                            /* Add a smooth transition effect when the box is hovered over */
+                            .box {
+                              transition: 0.3s;
+                            }
+                            
+                            /* Center align the text inside the box */
+                            .box {
+                              text-align: center;
+                            }
+                            
+                            /* Vertically center align the content inside the box */
+                            .box {
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            }
+                            .profile-picture img {
+                              width: 50px;
+                              height: 50px;
+                            }
+                          </style>
+                             
+}
+
+                </table>
+                  
+            </tr>
+            <!DOCTYPE html>
+            <html lang="en">
+              <head>
+                <style>
+                  .table {
+                    color: rgb(12, 0, 0);
+                  }
+                </style>
+                <table class="table">
+                  <tr>
+                    <th class="name">Name</th>
+                    <th class="profile-picture">Profile Picture</th>
+                    <th class="role">Role</th>
+                    <th class="blockchain">Blockchain</th>
+                    <th class="social-media">Social Media</th>
+                    <th class="likes">Likes</th>
+                    <th class="rating">Rating</th>
+                    <th class="donate">Donate</th>
+                  </tr>
+                  
+                  
+                <td class="name">David Lankashire</td>
+                <td class="profile-picture"><img src="david.avif" alt="David Lankashire's profile picture"
+                <td class="profile-picture"></td><style>
+
+                    </style>="width: 10px; height: 10px;"
+                    ></td>>
+                </td>>
+                <td class="social-media"><a href="https://github.com/davidlankes"></a></td>
+                <td class="role">Co-founder</td>
+                <td class="blockchain">Saito Network</td>
+                <td class="social-media"><a href="https://github.com/davidlankes"></a></td>
+                <td class="likes">0</td>
+                <td class="rating">0</td>
+                <td class="donate"><button onclick="donate(2)">Donate</button></td><td class="donate" data-address="0x1234567890abcdef1234567890abcdef12345678">
+                    <button onclick="donate()">Donate</button>
+                  </td>
+                  
+              </tr>
+              <tr>
+                <td class="name">Richard Parris</td>
+                <td class="profile-picture"><img src="wlnYMJiQ_400x400 (1).jpg" alt="Richard Parris's profile picture" 
+                <td class="profile-picture"></td>style="width: 10px; height: 10px;">
+                  </td>
+                  ></td>
+                <td class="role">Co-founder</td>
+                <td class="blockchain">Saito Network</td>
+                <td class="social-media"><a href="https://twitter.com/richard_parris">Twitter</a></td>
+                <td class="likes">0</td>
+                <td class="rating">0</td>
+                <td class="donate"><button onclick="donate(2)">Donate</button></td>
+              </tr>
+               <tr>
+                <td class="name">Brickblockcube</td>
+                <td class="profile-picture"><img src="bricky.jpeg"  alt="Richard parris,s profile picture"
+                <td class="profile-picture"></td>style-"width: 50px; height: 50px;">
+                ></td>
+                <td class="role">WEB Developer</td>
+                <td class="blockchain">Saito Network</td>
+                <td class="social-media"><a href="https://twitter.com/Brickblockcube">Twitter</a></td>
+                <td class="likes">0</td>
+                <td class="rating">0</td>
+                <td class="donate"><button onclick="donate(2)">Donate</button></td>
+            <!-- Add more rows for each developer -->
+        </tr>
+        <tr>
+            <td class="name">Seanybitcoins</td>
+            <td class="profile-picture"><img src="c9in0dy6_400x400.jpg"  alt="Richard parris,s profile picture"
+            <td class="profile-picture"></td>style-"width: 50px; height: 50px;">
+            ></td>
+            <td class="role">WEB Developer</td>
+            <td class="blockchain">Saito Network</td>
+            <td class="social-media"><a href="https://twitter.com/richard_parris">Twitter</a></td>
+            <td class="likes">0</td>
+            <td class="rating">0</td>
+            <td class= "pulse>">><button  onclick="donate(2)">Donate</button></td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+            <td class="name">Seanybitcoins</td>
+            <td class="profile-picture"><img src="c9in0dy6_400x400.jpg"  alt="Richard parris,s profile picture"
+            <td class="profile-picture"></td>style-"width: 50px; height: 50px;">
+            ></td>
+            <td class="role">WEB Developer</td>
+            <td class="blockchain">Saito Network</td>
+            <td class="social-media"><a href="https://twitter.com/seanybitcoins">Twitter</a></td>
+            <td class="likes">0</td>
+            <td class="rating">0</td>
+            <td class="donate"><button onclick="donate(2)">Donate</button></td>
+        </tr>
+        <tr>
+
+                </tr>
+                <tr>
+            <td class="name">ASH </td>
+                <td class="profile-picture"><img src="BLEZdpfD_400x400.jpg"  alt="Richard parris,s profile picture"
+                <td class="profile-picture"></td>style-"width: 50px; height: 50px;">
+                ></td>
+                <td class="role">WEB Developer</td>
+                <td class="blockchain">Saito Network</td>
+                <td class="social-media"><a href="https://twitter.com/DevEngineOz?s=20&t=-q9V2s9O_QF7UPNPVgAfVg">Twitter</a></td>
+                <td class="likes">0</td>
+                <td class="rating">0</td>
+                <td class="donate"><button onclick="donate(2)">Donate</button></td>
+            </tr>
+            <tr>
+                <td class="name">Pawel Pawkak14</td>
+                <td class="profile-picture"><img src=""  alt="Richard parris,s profile picture"
+                <td class="profile-picture"></td>style-"width: 50px; height: 50px;">
+                ></td>
+                <td class="role">Game Dev</td>
+                <td class="blockchain">Saito Network</td>
+                <td class="social-media"><a href="https://twitter.com/PawelPawlak14?s=20&t=KdpeQbvw4MjKvT7FrDCAgw">Twitter</a></td>
+                <td class="likes">0</td>
+                <td class="rating">0</td>
+                <td class="donate"><button onclick="donate(2)">Donate</button></td>
+            </tr>
+            <tr>
+              <td class="name">Patrick Robertson</td>
+            <td class="profile-picture"><img src="patrick robertoson.jpegc9in0dy6_400x400.jpg"  alt="Richard parris,s profile picture"
+            <td class="profile-picture"></td>style-"width: 50px; height: 50px;">
+            ></td>
+            <td class="role">Game DEV/Community member</td>
+            <td class="blockchain">Saito Network</td>
+            <td class="social-media"><a href="https://twitter.com/wickedinvestor">Twitter</a></td>
+            <td class="likes">0</td>
+            <td class="rating">0</td>
+            <td class="donate"><button onclick="donate(2)">Donate</button></td>
+          </table>
+          
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0>"
+        ></title> DONATE2DEVS
+        <title> 
+</title>
+
+<head>
+<body>
+    <img src="webeimage.PNG" alt="">
+</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DONATE2DEVS</title>
+
+  <style>
+    body {
+      background-image: url("webeimage.PNG");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    
+  </style>
+</head>
+<body>
+  <!-- Your table goes here -->
+</body>
+</html>
+
+</head>
+
